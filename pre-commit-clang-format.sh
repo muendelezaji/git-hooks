@@ -13,10 +13,10 @@
 
 # Improvements:
 #  - apply patch to the index as well as working tree
-#  - save configuration to skip prompt on each commit 
+#  - save configuration to avoid prompting on each commit 
 #  - use coloured diff if available
-# By , Sep 2015
-# Original here: https://github.com/sawenzel/VecGeom/blob/master/hooks/pre-commit-clang-format
+# By muendelezaji, Sep 2015
+# Original: https://github.com/sawenzel/VecGeom/blob/master/hooks/pre-commit-clang-format
 
 ##################################################################
 # SETTINGS
@@ -25,7 +25,7 @@
 CLANG_FORMAT="`type -p clang-format`"
 
 # set path to colordiff binary or equivalent
-COLOR_DIFF="/usr/bin/colordiff"
+# COLOR_DIFF="/usr/bin/colordiff"
 COLOR_DIFF="$(type -p colordiff)"
 
 # remove any older patches from previous commits. Set to true or false.
@@ -55,7 +55,7 @@ canonicalize_filename () {
     pushd `pwd` > /dev/null
 
     cd "$(dirname "$target_file")"
-    target_file=`basename $target_file`
+    target_file="`basename $target_file`"
 
     # Iterate down a (possible) chain of symlinks
     while [ -L "$target_file" ]
@@ -67,7 +67,7 @@ canonicalize_filename () {
 
     # Compute the canonicalized name by finding the physical path
     # for the directory we're in and appending the target file.
-    physical_directory=`pwd -P`
+    physical_directory="`pwd -P`"
     result="$physical_directory"/"$target_file"
 
     # restore the working directory after work.
@@ -85,7 +85,7 @@ matches_extension() {
     local extension=".${filename##*.}"
     local ext
 
-    for ext in $FILE_EXTS; do [[ "$ext" == "$extension" ]] && return 0; done
+    for ext in $FILE_EXTS; do [ "$ext" == "$extension" ] && return 0; done
 
     return 1
 }
@@ -105,9 +105,10 @@ if [ ! -x "$CLANG_FORMAT" ] ; then
 fi
 
 # create a random filename to store our generated patch
+tmpdir="${TMPDIR:-/tmp}"
 prefix="pre-commit-clang-format"
 suffix="$(date +%Y%m%d-%H%M%S)"
-patch="/tmp/$prefix-$suffix.patch"
+patch="$tmpdir/$prefix-$suffix.patch"
 
 # clean up any older clang-format patches
 $DELETE_OLD_PATCHES && rm -f /tmp/$prefix*.patch
@@ -150,7 +151,7 @@ fi
 
 # Apply changes to files in working tree and update index 
 function apply_and_stage {
-    patch_file="$1"
+    local patch_file="$1"
     git apply --index "$patch_file"
     # git apply --stat "$patch_file" | head -n -1 | awk '{print $1}' | xargs git add -u "$file"
 }
