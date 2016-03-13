@@ -1,23 +1,23 @@
 #!/bin/bash
 #
-# git pre-commit hook that runs an clang-format stylecheck.
-# Features:
-#  - abort commit when commit does not comply with the style guidelines
-#  - create a patch of the proposed style changes
-# modifications for clang-format by rene.milk@wwu.de
+# git pre-commit hook that runs a clang-format stylecheck.
 #
 # This file is part of a set of unofficial pre-commit hooks available
 # at github.
 # Link:    https://github.com/githubbrowser/Pre-commit-hooks
 # Contact: David Martin, david.martin.mailbox@googlemail.com
 #
-# Original: https://github.com/sawenzel/VecGeom/blob/master/hooks/pre-commit-clang-format
+# Modifications for clang-format by rene.milk@wwu.de
+# Features:
+#  - abort commit when commit does not comply with the style guidelines
+#  - create a patch of the proposed style changes
+# Link: https://github.com/sawenzel/VecGeom/blob/master/hooks/pre-commit-clang-format
 #
 # Improvements:
 #  - apply patch to the index as well as working tree
 #  - save configuration to avoid prompting on each commit 
 #  - use coloured diff if available
-# By muendelezaji, Sep 2015
+# By @muendelezaji, Mar 2016
 
 ##################################################################
 # SETTINGS
